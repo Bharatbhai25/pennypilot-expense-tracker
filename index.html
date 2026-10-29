@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PennyPilot | Expense Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">P</span><div><strong>PennyPilot</strong><small>Personal finance, made simple</small></div></div>
+    <a class="button button-outline" href="/api/export">Export CSV ↓</a>
+  </header>
+  <main class="container">
+    <section class="welcome">
+      <div><p class="eyebrow">YOUR MONEY OVERVIEW</p><h1>Know where it goes.</h1><p class="muted">Track spending, spot patterns, and make more intentional choices.</p></div>
+      <div class="today-pill" id="todayLabel"></div>
+    </section>
+    <section class="stats-grid">
+      <article class="stat-card"><span class="stat-label">All-time spending</span><strong id="totalSpent">₹0.00</strong><span class="stat-foot">Across all recorded expenses</span></article>
+      <article class="stat-card"><span class="stat-label">This month</span><strong id="monthlySpent">₹0.00</strong><span class="stat-foot">Current calendar month</span></article>
+      <article class="stat-card"><span class="stat-label">Expenses logged</span><strong id="expenseCount">0</strong><span class="stat-foot">Entries in your tracker</span></article>
+    </section>
+    <section class="content-grid">
+      <article class="panel form-panel">
+        <div class="panel-heading"><div><p class="eyebrow">NEW ENTRY</p><h2 id="formTitle">Add an expense</h2></div><span class="icon-bubble">＋</span></div>
+        <form id="expenseForm">
+          <input type="hidden" id="expenseId">
+          <label for="title">Expense title</label><input id="title" maxlength="100" placeholder="e.g. Grocery shopping" required>
+          <div class="two-col">
+            <div><label for="amount">Amount (₹)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+            <div><label for="category">Category</label><select id="category" required><option value="">Choose category</option><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Health</option><option>Education</option><option>Entertainment</option><option>Travel</option><option>Other</option></select></div>
+          </div>
+          <label for="expenseDate">Date</label><input id="expenseDate" type="date" required>
+          <label for="notes">Notes <span class="optional">(optional)</span></label><textarea id="notes" rows="3" maxlength="300" placeholder="Add a short note..."></textarea>
+          <div class="form-actions"><button class="button button-primary" type="submit" id="saveButton">Save expense</button><button class="button button-ghost hidden" type="button" id="cancelEdit">Cancel</button></div>
+          <p class="form-message" id="formMessage" role="status"></p>
+        </form>
+      </article>
+      <article class="panel category-panel">
+        <div class="panel-heading"><div><p class="eyebrow">SPENDING BREAKDOWN</p><h2>By category</h2></div></div>
+        <div id="categoryBreakdown" class="category-breakdown"><p class="empty-state">Your category summary will appear here.</p></div>
+      </article>
+    </section>
+    <section class="panel expenses-panel">
+      <div class="panel-heading list-heading"><div><p class="eyebrow">YOUR RECORDS</p><h2>Recent expenses</h2></div><span class="result-count" id="resultCount">0 entries</span></div>
+      <div class="filters">
+        <input id="searchInput" type="search" placeholder="Search title or notes..." aria-label="Search expenses">
+        <select id="filterCategory" aria-label="Filter by category"><option>All</option><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Health</option><option>Education</option><option>Entertainment</option><option>Travel</option><option>Other</option></select>
+        <input id="startDate" type="date" aria-label="Start date"><input id="endDate" type="date" aria-label="End date">
+        <button id="clearFilters" class="button button-ghost" type="button">Clear</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Expense</th><th>Category</th><th>Date</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="expenseRows"><tr><td colspan="5" class="empty-state">Loading expenses...</td></tr></tbody></table></div>
+    </section>
+    <footer>Made for mindful spending <span>•</span> PennyPilot</footer>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
